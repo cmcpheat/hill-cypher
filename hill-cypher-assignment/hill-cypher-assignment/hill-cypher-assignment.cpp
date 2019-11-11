@@ -64,7 +64,6 @@ vector< vector<int> > keygen()
 //
 //}
 
-// Main function to run program
 int main()
 {
 	srand(time(NULL));
