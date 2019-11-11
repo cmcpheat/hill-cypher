@@ -29,7 +29,6 @@ int swaptonum(char ch)
 	{
 		if ((ch == alpha[y]))
 		{
-			// cout << ch << "+" << alpha[y] << endl;
 			num = y;
 		}
 	}
