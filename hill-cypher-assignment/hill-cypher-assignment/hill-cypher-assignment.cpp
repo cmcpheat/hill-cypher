@@ -53,7 +53,6 @@ vector< vector<int> > keygen()
 		for (c = 0; c < 2; c++)
 		{
 			key[r][c] = int(rand() % 10 + 1);
-			// cout << key[r][c] << endl;
 		}
 	}
 	return key;
