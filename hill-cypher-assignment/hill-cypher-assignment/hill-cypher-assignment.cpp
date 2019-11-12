@@ -4,6 +4,8 @@
 #include <locale>
 #include <vector>
 
+// https:// stackoverflow.com/questions/25022880/c-split-string-every-x-characters
+
 using namespace std;
 
 string input;
@@ -24,7 +26,7 @@ int mod(int a)
 // Swaps alpha chars to corresponding num in alphabet (e.g. A=0, Z=25)
 int swaptonum(char ch)
 {
-	int y, num;
+	int y, num=0;
 	for (y = 0; y < 26; y++)
 	{
 		if ((ch == alpha[y]))
@@ -89,13 +91,9 @@ int main()
 	{
 		char ch = pt[i];
 
-		
-
 		if (isalpha(ch)) {
 			int num = swaptonum(ch);
 			int counter = 0;
-
-
 			int r, c, ans;
 				
 			for (r = 0; r < 2; r++)
