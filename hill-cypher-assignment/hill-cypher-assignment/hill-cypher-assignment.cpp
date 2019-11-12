@@ -62,12 +62,35 @@ vector< vector<int> > keygen()
 }
 
 // Takes 2x2 KEY matrix and multiplies by 2x1 CHAR matrix
-vector< vector<int> > mcalc(vector< vector<int> > k, vector< vector<int> > c)
+vector< vector<int> > multiply(vector< vector<int> > k, vector< vector<int> > c)
 {
 	vector< vector<int> > ans(2, vector<int>(2));
 	ans[0][0] = (k[0][0] * c[0][0]) + (k[0][1] * c[0][1]);
 	ans[0][1] = (k[1][0] * c[0][0]) + (k[1][1] * c[0][1]);
 	return ans;
+}
+
+// Splits plain text into 2x1 matrices
+vector<string> split(const string& str)
+{
+	int NumSubstrings = str.length() / 2;
+	cout << NumSubstrings << endl;
+	vector<string> ret;
+
+	for (int i = 0; i < NumSubstrings; i++)
+	{
+		int c = i * 2;
+		ret.push_back(str.substr(c, 2));
+	}
+
+	// If there are leftover characters, create a shorter item at the end.
+	if (str.length() % 2 != 0)
+	{
+		int num = 2 * NumSubstrings;
+		string extra = str.substr(num);
+		ret.push_back(extra);
+	}
+	return ret;
 }
 
 int main()
@@ -87,37 +110,47 @@ int main()
 
 	int len = pt.length();
 
+	vector<string> tsplit = split(pt);
+	
+	cout << tsplit[0] << endl;
+	cout << tsplit[1] << endl;
+	cout << tsplit[2] << endl;
+	cout << tsplit[3] << endl;
+	cout << tsplit[4] << endl;
+
+
+
 	for (int i = 0; i < len; i++)
 	{
 		char ch = pt[i];
 
 		if (isalpha(ch)) {
-			int num = swaptonum(ch);
-			int counter = 0;
-			int r, c, ans;
-				
-			for (r = 0; r < 2; r++)
-			{
-				for (c = 0; c < 2; c++)
-				{
-					mtrx[r][c] = num;
-					cout << mtrx[r][c] << endl;
-						
-				}
-			}
-			// cout << "Yes: " << num << endl;
+
 		}
 		else {
 			cout << "No:  " << ch << endl;
 			return ch;
 		}
-		
+
 	}
-	//cout << "0.0: " << mtrx[0][0] << endl;
-	//cout << "0.1: " << mtrx[0][1] << endl;
-	//cout << "1.0: " << mtrx[1][0] << endl;
-	//cout << "1.1: " << mtrx[1][1] << endl;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // cout << k[0] << k[1] << k[2] << k[3] << endl;
