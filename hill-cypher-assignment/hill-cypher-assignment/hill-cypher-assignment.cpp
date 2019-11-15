@@ -3,6 +3,7 @@
 #include <string>
 #include <locale>
 #include <vector>
+#include <stack>
 
 // https:// stackoverflow.com/questions/25022880/c-split-string-every-x-characters
 
@@ -54,43 +55,80 @@ vector< vector<int> > multiply(vector< vector<int> > k, vector< vector<int> > c)
 void encrypt(vector< vector<int> > key, string pt)
 {
 	string cyphertext;
+	vector<int> chars;
+	stack <char> s;
+	int len = pt.length();
 
-	// split chars
-	const string& s = pt;
-	int matrices = s.length() / 2;
-
-	vector<string> chars;
-
-	for (int i = 0; i < matrices; i++)
-	{
-		int c = i * 2;
-		chars.push_back(s.substr(c, 2));
+	if (len % 2 != 0) {
+		cout << "odd number" << endl;
+		pt = pt += " ";
+		len++;
+	}
+	else {
+		cout << "even number" << endl;
+		pt = pt; 
 	}
 
-	// If there is a leftover character, add a space
-	if (s.length() % 2 != 0)
+	for (int i = 0; i < len; i++)
 	{
-		int num = 2 * matrices;
-		string extra = s.substr(num) + " ";
-		chars.push_back(extra);
-		matrices++;
+		char ch = pt[i];
+		if (isalpha(ch)) {
+			cout << ch << " is alpha" << endl; 
+			for (int c = 0; c < 2; c++)
+			{
+				cout << c << ": " << ch << endl;
+				for (int d = 1; d < 3; d++)
+				{
+					
+				}
+			}
+		}
+		else {
+			cout << ch << " is NOT alpha" << endl;
+		}
 	}
-	cout << "Num of letter matrices: " << matrices << endl;
 
-	// loop inside chars
-	for (int x = 0; x < matrices; x++)
-	{
-		cout << mod((key[0][0] * chars[0][0]) + (key[0][1] * chars[0][1])) << endl;
-		cout << mod((key[1][0] * chars[0][0]) + (key[1][1] * chars[0][1])) << endl;
 
-		// for(int y=0; y<2 ; y++)
-		// {
-		//     // cout << int(chars[x][y]) << endl;
-
-		// } 
-		cout << "<-" << endl;
-	}
 }
+	//// Pushes plaint text into vector
+	//const string& s = pt;
+	//int len = s.length() / 2;
+
+	//vector<string> chars;
+
+	//for (int i = 0; i < len; i++)
+	//{
+	//	int c = i * 2;
+	//	chars.push_back(s.substr(c, 2));
+	//}
+
+	//// If odd number of chars in string, add a space to make even mumber of indices
+	//// Also increase length of vector by 1
+	//if (s.length() % 2 != 0)
+	//{
+	//	int num = 2 * len;
+	//	string extra = s.substr(num) + " ";
+	//	chars.push_back(extra);
+	//	len++;
+	//}
+	//cout << "Num of letter matrices: " << len << endl;
+
+	//// loop inside chars
+	//for (int x = 0; x < len; x++)
+	//{
+	//	vector< vector<int> > mat(2, vector<int>(2));
+
+	//	cout << mod((key[0][0] * chars[0][0]) + (key[0][1] * chars[0][1])) << endl;
+	//	cout << mod((key[1][0] * chars[0][0]) + (key[1][1] * chars[0][1])) << endl;
+
+	//	// for(int y=0; y<2 ; y++)
+	//	// {
+	//	//     // cout << int(chars[x][y]) << endl;
+
+	//	// } 
+	//	cout << "<-" << endl;
+	//}
+
 
 int main()
 {
