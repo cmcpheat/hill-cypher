@@ -11,6 +11,24 @@ using namespace std;
 
 string input;
 int n, c;
+char alpha[26] = { 'a','b','c','d','e','f','g','h','i',
+				'j','k','l','m','n','o','p','q','r',
+				's','t','u','v','w','x','y','z' };
+
+// Swaps num to corresponding letter in alphabet (e.g. 0=A, 25=Z)
+int swaptochar(int n)
+{
+	int y;
+	char ch;
+	for (y = 0; y < 26; y++)
+	{
+		if (n == y)
+		{
+			ch = alpha[y];
+		}
+	}
+	return ch;
+}
 
 // Modulo operation
 int mod(int a)
@@ -44,28 +62,31 @@ vector< vector<int> > keygen()
 }
 
 // Takes 2x2 KEY matrix and multiplies by 2x1 CHAR matrix
-vector< vector<int> > multiply(vector< vector<int> > k, vector< vector<int> > c)
+vector<int> multiply(vector< vector<int> > k, vector<int> c)
 {
-	vector< vector<int> > ans(2, vector<int>(2));
-	ans[0][0] = (k[0][0] * c[0][0]) + (k[0][1] * c[0][1]);
-	ans[0][1] = (k[1][0] * c[0][0]) + (k[1][1] * c[0][1]);
-	return ans;
+	vector<int> v;
+	
+	cout << "Inside func 1: " << c[0] << endl;
+	cout << "Inside func 2: " << c[1] << endl;
+
+	v.insert(v.begin(), ((k[0][0] * c[0]) + (k[0][1] * c[1])));
+	v.insert(v.end(), ((k[1][0] * c[0]) + (k[1][1] * c[1])));
+	return v;
 }
 
 void encrypt(vector< vector<int> > key, string pt)
 {
 	string cyphertext;
 	vector<int> chars;
-	stack <char> s;
+	vector<int> ans;
+	string temp = "";
 	int len = pt.length();
 
 	if (len % 2 != 0) {
-		cout << "odd number" << endl;
 		pt = pt += " ";
 		len++;
 	}
 	else {
-		cout << "even number" << endl;
 		pt = pt; 
 	}
 
@@ -73,20 +94,29 @@ void encrypt(vector< vector<int> > key, string pt)
 	{
 		char ch = pt[i];
 		if (isalpha(ch)) {
-			cout << ch << " is alpha" << endl; 
-			for (int c = 0; c < 2; c++)
+			temp += ch;
+
+			if (temp.length() >= 2)
 			{
-				cout << c << ": " << ch << endl;
-				for (int d = 1; d < 3; d++)
+				for (int y = 0; y < 2; y++)
 				{
-					
+					int tempint = temp[y];
+					chars.push_back(tempint);
 				}
+				
+				ans = multiply(key, chars);
+				cyphertext += swaptochar(mod(ans[0]));
+				cyphertext += swaptochar(mod(ans[1]));
+				temp = "";
 			}
+			
 		}
 		else {
 			cout << ch << " is NOT alpha" << endl;
 		}
 	}
+
+	cout << cyphertext << endl;
 
 
 }
