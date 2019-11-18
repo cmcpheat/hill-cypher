@@ -70,68 +70,71 @@ vector<int> multiply(vector< vector<int> > k, vector<int> c)
 	return v;
 }
 
-// TODO: void
-void encrypt(vector< vector<int> > key, string pt)
+// Encrypts the plaintext into cyphertext
+string encrypt(vector< vector<int> > key, string pt)
 {
 	string cyphertext;
 	vector<int> encryption;
-	vector<int> matrix;
+	vector<int> vec;
 
-	string tempstr = "";
 	int len = pt.length();
 
+	// If string length is odd number, add on a space to end of plaintext
 	if (len % 2 != 0) {
 		pt = pt += " ";
 		len++;
 	}
+	// If even, then do nothing with plaintext
 	else {
 		pt = pt;
 	}
 
-	cout << "len: " << len << endl;
-
+	// Loop through each char in plaintext
 	for (int i = 0; i < len; i++)
 	{	
 		char ch = pt[i];
+
+		// If char is alphanumeric...
 		if (isalpha(ch)) {
+
+			// Push to temporary vector
+			// ** converts to ASCII integer **
+			vec.push_back(ch);
+
+			// If vector is 2 chars long, encrypt
+			if (vec.size() % 2 == 0) {
 			
-			matrix.push_back(ch);
+				// Multiply 2x2 key with 2x1 char matrix
+				// and get modulo of result
+				encryption = mod(multiply(key, vec));
 
-			if (matrix.size() % 2 == 0) {
-
-				cout << "matrix 0: " << matrix[0] << endl;
-				cout << "matrix 1: " << matrix[1] << endl;
-			
-				encryption = mod(multiply(key, matrix));
-
-				cout << "encrypt 0: " << encryption[0] << endl;
-				cout << "encrypt 1: " << encryption[1] << endl;
-
+				// Swap encrypted integer with corresponding
+				// letter in the alphabet
 				char swapped0 = swaptochar(encryption[0]);
 				char swapped1 = swaptochar(encryption[1]);
 
-				cout << "swapped 0: " << swapped0 << endl;
-				cout << "swapped 1: " << swapped1 << endl;
-
+				// Add chars to cyphertext string
 				cyphertext += swapped0;
 				cyphertext += swapped1;
 
-				matrix.clear();
+				// Empty the vector
+				vec.clear();
 			}
 		}
+		// If not alphanumeric, add to cyphertext string
 		else {
 			cyphertext += ch;
-			cout << "Char: " << ch << " is NOT alpha" << endl;
 		}
 	}
-	cout << "The cypher text: " << cyphertext << endl;
+	return cyphertext;
 }
 
 int main()
 {
 	srand(time(NULL));
 	vector< vector<int> > key = keygen();
-	string pt = getinput();
-	encrypt(key, pt);
+	string plaintext = getinput();
+	string cyphertext = encrypt(key, plaintext);
+	cout << "Cypher text:\n" << cyphertext << endl;
 }
 
