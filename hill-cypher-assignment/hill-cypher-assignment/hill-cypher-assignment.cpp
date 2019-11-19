@@ -7,46 +7,66 @@
 
 using namespace std;
 
-string input;
-int n, c;
-char alpha[26] = { 'a','b','c','d','e','f','g','h','i',
-				'j','k','l','m','n','o','p','q','r',
-				's','t','u','v','w','x','y','z' };
+
+class HillCypher
+{
+public:
+	int setLetter(int);
+	vector< vector<int> > setKey();
+	string getInput();
+	vector<int> getModulo(vector<int>);
+	vector<int> matrixMultiply(vector< vector<int> >, vector<int>);
+	string encryptPlainText(vector< vector<int> >, string);
+	string decryptCypherText(vector< vector<int> >, string);
+
+private:
+	char letter; 
+	string input;
+	vector<int> modulo;
+	vector< vector<int> > key;
+	vector<int> multiplication;
+	string cyphertext;
+	string plaintext;
+};
 
 // Swaps num to corresponding letter in alphabet (e.g. 0=A, 25=Z)
-int swaptochar(int n)
+int HillCypher::setLetter(int n)
 {
+	char alpha[26] = { 'a','b','c','d','e','f','g','h','i',
+				'j','k','l','m','n','o','p','q','r',
+				's','t','u','v','w','x','y','z' };
 	int y;
-	char ch;
+	char letter;
 	for (y = 0; y < 26; y++)
 	{
 		if (n == y)
 		{
-			ch = alpha[y];
+			letter = alpha[y];
 		}
 	}
-	return ch;
+	return letter;
 }
 
 // Matrix modulo operation
-vector<int> mod(vector<int> v)
+vector<int> HillCypher::getModulo(vector<int> v)
 {
-	vector<int> a;
-	a.insert(a.begin(), (v[0] % 26));
-	a.insert(a.end(), (v[1] % 26));
-	return a;
+	vector<int> modulo;
+	modulo.insert(modulo.begin(), (v[0] % 26));
+	modulo.insert(modulo.end(), (v[1] % 26));
+	return modulo;
 }
 
 // Asks user to enter a plain text message
-string getinput()
+string HillCypher::getInput()
 {
+	string input;
 	cout << "Enter a message: ";
 	getline(cin, input);
 	return input;
 }
 
 // Generates random 2x2 key vector matrix
-vector< vector<int> > keygen()
+vector< vector<int> > HillCypher::setKey()
 {
 	int r, c;
 	vector< vector<int> > key(2, vector<int>(2));
@@ -58,20 +78,21 @@ vector< vector<int> > keygen()
 			cout << key[r][c] << endl;
 		}
 	}
+	
 	return key;
 }
 
 // Takes 2x2 KEY matrix and multiplies by 2x1 CHAR matrix
-vector<int> multiply(vector< vector<int> > k, vector<int> c)
+vector<int> HillCypher::matrixMultiply(vector< vector<int> > k, vector<int> c)
 {
-	vector<int> v;
-	v.insert(v.begin(), ((k[0][0] * c[0]) + (k[0][1] * c[1])));
-	v.insert(v.end(), ((k[1][0] * c[0]) + (k[1][1] * c[1])));
-	return v;
+	vector<int> multiplication;
+	multiplication.insert(multiplication.begin(), ((k[0][0] * c[0]) + (k[0][1] * c[1])));
+	multiplication.insert(multiplication.end(), ((k[1][0] * c[0]) + (k[1][1] * c[1])));
+	return multiplication;
 }
 
 // Encrypts the plaintext into cyphertext
-string encrypt(vector< vector<int> > key, string pt)
+string HillCypher::encryptPlainText(vector< vector<int> > key, string pt)
 {
 	string cyphertext;
 	vector<int> encryption;
@@ -106,12 +127,12 @@ string encrypt(vector< vector<int> > key, string pt)
 			
 				// Multiply 2x2 key with 2x1 char matrix
 				// and get modulo of result
-				encryption = mod(multiply(key, vec));
+				encryption = getModulo(matrixMultiply(key, vec));
 
 				// Swap encrypted integer with corresponding
 				// letter in the alphabet
-				char swapped0 = swaptochar(encryption[0]);
-				char swapped1 = swaptochar(encryption[1]);
+				char swapped0 = setLetter(encryption[0]);
+				char swapped1 = setLetter(encryption[1]);
 
 				// Add chars to cyphertext string
 				cyphertext += swapped0;
@@ -129,12 +150,82 @@ string encrypt(vector< vector<int> > key, string pt)
 	return cyphertext;
 }
 
+string HillCypher::decryptCypherText(vector< vector<int> > key, string ct)
+{
+
+}
+
+
+
 int main()
 {
+	// Reset random generator to NULL
 	srand(time(NULL));
-	vector< vector<int> > key = keygen();
-	string plaintext = getinput();
-	string cyphertext = encrypt(key, plaintext);
+
+	// Create new Hill Cypher object "myCypher"
+	HillCypher myCypher;
+
+	// Create a random 2x2 key matrix
+	vector< vector<int> > key = myCypher.setKey();
+
+	// Get the user's input (plaintext)
+	string plaintext = myCypher.getInput();
+
+	// Encrypt the plaintext
+	string cyphertext = myCypher.encryptPlainText(key, plaintext);
+
+	// Print the cyphertext to console
 	cout << "Cypher text:\n" << cyphertext << endl;
 }
 
+
+/*
+
+// Example program
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+// vector< vector<int> > invertMatrix(vector< vector<int> > v);
+
+int main()
+{
+	vector< vector<int> > key(2, vector<int>(2));
+
+	key[0][0] = 3;
+	key[0][1] = 3;
+	key[1][0] = 2;
+	key[1][1] = 5;
+
+	cout << key[0][0] << endl;
+	cout << key[0][1] << endl;
+	cout << key[1][0] << endl;
+	cout << key[1][1] << endl;
+
+	vector< vector<float> > inverse(2, vector<float>(2));
+
+	float k00 = key[0][0];
+	float k01 = key[0][1];
+	float k10 = key[1][0];
+	float k11 = key[1][1];
+
+	float mult = (1/((k00*k11)-(k01*k10)));
+
+	inverse[0][0] = k11 * mult;
+	inverse[0][1] = -(k01 * mult);
+	inverse[1][0] = -(k10 * mult);
+	inverse[1][1] = k00 * mult;
+
+	// cout << mult << endl;
+
+	cout << fmod((inverse[0][0]), 26) << endl;
+	// cout << (inverse[0][1]) % 26 << endl;
+	// cout << (inverse[1][0]) % 26 << endl;
+	// cout << (inverse[1][1]) % 26 << endl;
+
+}
+
+*/
