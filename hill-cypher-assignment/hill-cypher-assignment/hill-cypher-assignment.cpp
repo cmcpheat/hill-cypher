@@ -6,6 +6,8 @@
 #include <stack>
 #include <cmath>
 
+// decryption video - https ://www.youtube.com/watch?v=kfmNeskzs2o
+
 using namespace std;
 
 
@@ -139,21 +141,34 @@ vector< vector<int> > HillCypher::setKey()
 vector< vector<float> > invertMatrix(vector< vector<int> > v)
 {
 	vector< vector<float> > inverse(2, vector<float>(2));
-	float k00 = v[0][0];
-	float k01 = v[0][1];
-	float k10 = v[1][0];
-	float k11 = v[1][1];
+	//float k00 = v[0][0];
+	//float k01 = v[0][1];
+	//float k10 = v[1][0];
+	//float k11 = v[1][1];
 
-	float mult = (1 / ((k00 * k11) - (k01 * k10)));
+	inverse[0][0] = v[1][1];
+	inverse[0][1] = -(v[0][1]);
+	inverse[1][0] = -(v[1][0]);
+	inverse[1][1] = v[0][0];
 
-	inverse[0][0] = k11 * mult;
-	inverse[0][1] = -(k01 * mult);
-	inverse[1][0] = -(k10 * mult);
-	inverse[1][1] = k00 * mult;
+	//float mult = (1 / ((k00 * k11) - (k01 * k10)));
 
-	cout << "Mult: " << mult << endl;
+	//inverse[0][0] = k11 * mult;
+	//inverse[0][1] = -(k01 * mult);
+	//inverse[1][0] = -(k10 * mult);
+	//inverse[1][1] = k00 * mult;
+
+	//cout << "Mult: " << mult << endl;
 
 	return inverse;
+}
+
+// Get determinant
+float getDeterminant(vector< vector<int> > v)
+{
+	float determinant; 
+	determinant = ((v[0][0] * v[1][1]) - (v[0][1] * v[1][0]));
+	return determinant; 
 }
 
 // Takes 2x2 KEY matrix and multiplies by 2x1 CHAR matrix
@@ -252,7 +267,7 @@ int main()
 	// 	cout << "( " << key[1][0] << " " << key[1][1] << " )\n\n";
 
 
-		// Get the user's input (plaintext)
+	// Get the user's input (plaintext)
 	string plaintext = myCypher.getInput();
 
 	// Encrypt the plaintext
@@ -265,11 +280,19 @@ int main()
 	vector< vector<float> > inverse(2, vector<float>(2));
 	inverse = invertMatrix(key);
 
-	float test = inverse[0][0]; 
-	cout << fmod(test, 26) << endl;
 	cout << inverse[0][0] << endl;
-	//cout << inverse[1][0] << endl;
-	//cout << inverse[1][1] << endl;
+	cout << inverse[0][1] << endl;
+	cout << inverse[1][0] << endl;
+	cout << inverse[1][1] << endl;
+
+	float determinant = getDeterminant(key);
+	cout << "Det: " << determinant << endl;
+
+	cout << "Multiply by Inverse: " << determinant * (1 / determinant) << endl;
+
+	// det * ? = 1 mod 26
+
+	// for (int g=0; g)
 
 
 	//cout << fmod((inverse[0][0]), 26) << endl;
