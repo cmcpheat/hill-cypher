@@ -18,6 +18,7 @@ public:
 	string getInput();
 	vector<int> getModulo(vector<int>);
 	vector<int> matrixMultiply(vector< vector<int> >, vector<int>);
+	bool checkMatrixIsInvertible(vector< vector<int> >);
 	string encryptPlainText(vector< vector<int> >, string);
 	// string decryptCypherText(vector< vector<int> >, string);
 
@@ -85,7 +86,7 @@ string HillCypher::getInput()
 	return input;
 }
 
-bool getDeterminant(vector< vector<int> > v)
+bool HillCypher::checkMatrixIsInvertible(vector< vector<int> > v)
 {
 	if (((v[0][0] * v[1][1]) - (v[0][1] * v[1][0])) != 0) {
 		// cout << "Matrix is invertible" << endl;
@@ -121,7 +122,7 @@ vector< vector<int> > HillCypher::setKey()
 		cout << "( " << key[0][0] << " " << key[0][1] << " )\n";
 		cout << "( " << key[1][0] << " " << key[1][1] << " )\n\n";
 
-		if (getDeterminant(key) == true) {
+		if (checkMatrixIsInvertible(key) == true) {
 			cout << "Key is invertible\n" << endl;
 			invertible = 1;
 		}
