@@ -4,6 +4,7 @@
 #include <locale>
 #include <vector>
 #include <stack>
+#include <cmath>
 
 using namespace std;
 
@@ -149,12 +150,7 @@ vector< vector<float> > invertMatrix(vector< vector<int> > v)
 	inverse[1][0] = -(k10 * mult);
 	inverse[1][1] = k00 * mult;
 
-	// cout << mult << endl;
-
-	// cout << fmod((inverse[0][0]), 26) << endl;
-	// cout << (inverse[0][1]) % 26 << endl;
-	// cout << (inverse[1][0]) % 26 << endl;
-	// cout << (inverse[1][1]) % 26 << endl;
+	cout << "Mult: " << mult << endl;
 
 	return inverse;
 }
@@ -263,6 +259,22 @@ int main()
 
 	// Print the cyphertext to console
 	cout << "Cypher text:\n" << cyphertext << endl;
+
+	// Invert key
+	vector< vector<float> > inverse(2, vector<float>(2));
+	inverse = invertMatrix(key);
+
+	float test = inverse[0][0]; 
+	cout << fmod(test, 26) << endl;
+	cout << inverse[0][0] << endl;
+	//cout << inverse[1][0] << endl;
+	//cout << inverse[1][1] << endl;
+
+
+	//cout << fmod((inverse[0][0]), 26) << endl;
+	//cout << fmod((inverse[0][1]), 26) << endl;
+	//cout << fmod((inverse[1][0]), 26) << endl;
+	//cout << fmod((inverse[1][1]), 26) << endl;
 
 	//// Decrypt the cyphertext
 	//string plain = myCypher.decryptCypherText(key, cyphertext);
