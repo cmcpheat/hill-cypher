@@ -166,9 +166,9 @@ vector< vector<float> > invertMatrix(vector< vector<int> > v)
 // Get determinant
 float getDeterminant(vector< vector<int> > v)
 {
-	float determinant; 
+	float determinant;
 	determinant = ((v[0][0] * v[1][1]) - (v[0][1] * v[1][0]));
-	return determinant; 
+	return determinant;
 }
 
 // Takes 2x2 KEY matrix and multiplies by 2x1 CHAR matrix
@@ -205,11 +205,16 @@ string HillCypher::encryptPlainText(vector< vector<int> > key, string pt)
 		char ch = pt[i];
 
 		// If char is alphanumeric...
-		if (isalpha(ch)) {
+		// if (isalpha(ch)) {
+
+		int ich = ch; 
+		cout << ch << " > " << ich << endl;
 
 			// Push char to temporary vector
 			// ** converts to number, e.g. A=0, Z=25 **
-			vec.push_back(setNumber(ch));
+			
+			// Not using setNumber so I can convert to ASCII
+			vec.push_back(ch);
 
 			// If vector is 2 chars long, encrypt
 			if (vec.size() % 2 == 0) {
@@ -230,11 +235,11 @@ string HillCypher::encryptPlainText(vector< vector<int> > key, string pt)
 				// Empty the vector
 				vec.clear();
 			}
-		}
+		//}
 		// If not alphanumeric, add to cyphertext string
-		else {
-			cyphertext += ch;
-		}
+		//else {
+		//	cyphertext += ch;
+		//}
 	}
 	return cyphertext;
 }
@@ -286,9 +291,9 @@ int main()
 	cout << inverse[1][1] << endl;
 
 	float determinant = getDeterminant(key);
-	cout << "Det: " << determinant << endl;
+	//cout << "Det: " << determinant << endl;
 
-	cout << "Multiply by Inverse: " << determinant * (1 / determinant) << endl;
+	//cout << "Multiply by Inverse: " << determinant * (1 / determinant) << endl;
 
 	// det * ? = 1 mod 26
 
