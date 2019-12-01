@@ -16,6 +16,7 @@ class HillCypher
 public:
 	char setLetter(int);
 	int setNumber(char);
+	int getDeterminant(vector < vector<int> >);
 	string getInput();
 	vector< vector<int> > setKey();
 	vector< vector<int> > setInverseKey(vector< vector<int> >);
@@ -93,7 +94,7 @@ string HillCypher::getInput()
 
 bool HillCypher::checkMatrixIsInvertible(vector< vector<int> > v)
 {
-	if (((v[0][0] * v[1][1]) - (v[0][1] * v[1][0])) != 0) {
+	if (getDeterminant(v) != 0) {
 		// cout << "Matrix is invertible" << endl;
 		cout << "Determinant : \n" << ((v[0][0] * v[1][1]) - (v[0][1] * v[1][0])) << "\n\n";
 		return true;
@@ -104,6 +105,11 @@ bool HillCypher::checkMatrixIsInvertible(vector< vector<int> > v)
 	}
 }
 
+int HillCypher::getDeterminant(vector< vector<int> > v)
+{
+	int determinant = ((v[0][0] * v[1][1]) - (v[0][1] * v[1][0]));
+	return determinant;
+}
 
 // Generates random 2x2 key vector matrix
 vector< vector<int> > HillCypher::setKey()
@@ -128,6 +134,7 @@ vector< vector<int> > HillCypher::setKey()
 		cout << "( " << key[1][0] << " " << key[1][1] << " )\n\n";
 
 		if (checkMatrixIsInvertible(key) == true) {
+			// && (getDeterminant(key) > 0)
 			cout << "Key is invertible\n" << endl;
 			invertible = true;
 		}
@@ -152,15 +159,25 @@ vector< vector<int> > HillCypher::setInverseKey(vector < vector<int> > v)
 	modInverse[1][1] = ((v[0][0]) % 26 + 26) % 26;
 
 	// Caculate determinant of key
-	int determinant = ((v[0][0] * v[1][1]) - (v[0][1] * v[1][0]));
+	int determinant = getDeterminant(v);
+
+	cout << "Determinant: " << determinant << endl;
 
 	// Calculate inverse key matrix
 	float f = 1 / (static_cast<float>(determinant));
+
+	cout << "F: 0 " << f << endl;
+
 	int detInverse = static_cast<int>(determinant * f);
+
+	cout << "Det Inverse: " << detInverse << endl;
+
 	int i = 0;
 
-	while ((determinant * i) % 26 != detInverse)
+	while ((determinant * i) % 26 != detInverse) {
+		cout << "i: " << i << endl;
 		i++;
+	}
 
 	inverseKey[0][0] = (((modInverse[0][0] * i) % 26 + 26) % 26);
 	inverseKey[0][1] = (((modInverse[0][1] * i) % 26 + 26) % 26);
