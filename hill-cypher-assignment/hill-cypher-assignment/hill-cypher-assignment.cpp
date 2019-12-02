@@ -92,9 +92,12 @@ string HillCypher::getInput()
 	return input;
 }
 
+// Checks if determinant of matrix is odd number between 1-25
 bool HillCypher::checkMatrixIsInvertible(vector< vector<int> > v)
 {
-	if (getDeterminant(v) != 0) {
+	int det = getDeterminant(v);
+
+	if (det >= 1 && det <= 25 && det % 2 != 0) {
 		// cout << "Matrix is invertible" << endl;
 		cout << "Determinant : \n" << ((v[0][0] * v[1][1]) - (v[0][1] * v[1][0])) << "\n\n";
 		return true;
@@ -134,7 +137,6 @@ vector< vector<int> > HillCypher::setKey()
 		cout << "( " << key[1][0] << " " << key[1][1] << " )\n\n";
 
 		if (checkMatrixIsInvertible(key) == true) {
-			// && (getDeterminant(key) > 0)
 			cout << "Key is invertible\n" << endl;
 			invertible = true;
 		}
@@ -178,6 +180,8 @@ vector< vector<int> > HillCypher::setInverseKey(vector < vector<int> > v)
 		cout << "i: " << i << endl;
 		i++;
 	}
+
+	cout << "final i: " << i << endl;
 
 	inverseKey[0][0] = (((modInverse[0][0] * i) % 26 + 26) % 26);
 	inverseKey[0][1] = (((modInverse[0][1] * i) % 26 + 26) % 26);
