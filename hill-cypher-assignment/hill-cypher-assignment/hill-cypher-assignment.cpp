@@ -3,8 +3,6 @@
 #include <string>
 #include <locale>
 #include <vector>
-#include <stack>
-#include <cmath>
 
 // decryption video - https ://www.youtube.com/watch?v=kfmNeskzs2o
 
@@ -41,12 +39,12 @@ private:
 // Swaps num to corresponding letter in alphabet (e.g. 0=A, 25=Z)
 char HillCypher::setLetter(int n)
 {
-	char alpha[26] = { 'a','b','c','d','e','f','g','h','i',
+	char alpha[128] = { 'a','b','c','d','e','f','g','h','i',
 				'j','k','l','m','n','o','p','q','r',
 				's','t','u','v','w','x','y','z' };
 	int y;
 	char letter;
-	for (y = 0; y < 26; y++)
+	for (y = 0; y < 128; y++)
 	{
 		if (n == y)
 		{
@@ -59,12 +57,12 @@ char HillCypher::setLetter(int n)
 // Swaps letter in alphabet to corresponding number (e.g. A=0, Z=25)
 int HillCypher::setNumber(char c)
 {
-	char alpha[26] = { 'a','b','c','d','e','f','g','h','i',
+	char alpha[128] = { 'a','b','c','d','e','f','g','h','i',
 				'j','k','l','m','n','o','p','q','r',
 				's','t','u','v','w','x','y','z' };
 	int y;
 	int number;
-	for (y = 0; y < 26; y++)
+	for (y = 0; y < 128; y++)
 	{
 		if (c == alpha[y])
 		{
@@ -78,8 +76,8 @@ int HillCypher::setNumber(char c)
 vector<int> HillCypher::getMatrixModulo(vector<int> v)
 {
 	vector<int> modulo;
-	modulo.insert(modulo.begin(), (v[0] % 26));
-	modulo.insert(modulo.end(), (v[1] % 26));
+	modulo.insert(modulo.begin(), (v[0] % 128));
+	modulo.insert(modulo.end(), (v[1] % 128));
 	return modulo;
 }
 
@@ -89,6 +87,7 @@ string HillCypher::getInput()
 	string input;
 	cout << "Enter a message: ";
 	getline(cin, input);
+	cout << endl;
 	return input;
 }
 
@@ -98,12 +97,9 @@ bool HillCypher::checkMatrixIsInvertible(vector< vector<int> > v)
 	int det = getDeterminant(v);
 
 	if (det >= 1 && det <= 25 && det % 2 != 0) {
-		// cout << "Matrix is invertible" << endl;
-		cout << "Determinant : \n" << ((v[0][0] * v[1][1]) - (v[0][1] * v[1][0])) << "\n\n";
 		return true;
 	}
 	else {
-		// cout << "Matrix is not invertible" << endl;
 		return false;
 	}
 }
@@ -117,7 +113,7 @@ int HillCypher::getDeterminant(vector< vector<int> > v)
 // Generates random 2x2 key vector matrix
 vector< vector<int> > HillCypher::setKey()
 {
-	int invertible = false;
+	bool invertible = false;
 	vector< vector<int> > key(2, vector<int>(2));
 
 	while (invertible == false)
@@ -132,16 +128,10 @@ vector< vector<int> > HillCypher::setKey()
 			}
 		}
 
-		cout << "Key :\n";
-		cout << "( " << key[0][0] << " " << key[0][1] << " )\n";
-		cout << "( " << key[1][0] << " " << key[1][1] << " )\n\n";
-
 		if (checkMatrixIsInvertible(key) == true) {
-			cout << "Key is invertible\n" << endl;
 			invertible = true;
 		}
 		else {
-			cout << "Key is NOT invertible\n" << endl;
 			invertible = false;
 		}
 	}
@@ -155,38 +145,27 @@ vector< vector<int> > HillCypher::setInverseKey(vector < vector<int> > v)
 	vector< vector<int> > inverseKey(2, vector<int>(2));
 
 	// Invert the key and perform modulo
-	modInverse[0][0] = ((v[1][1] % 26 + 26) % 26);
-	modInverse[0][1] = ((-(v[0][1]) % 26 + 26) % 26);
-	modInverse[1][0] = ((-(v[1][0]) % 26 + 26) % 26);
-	modInverse[1][1] = ((v[0][0]) % 26 + 26) % 26;
+	modInverse[0][0] = ((v[1][1] % 128 + 128) % 128);
+	modInverse[0][1] = ((-(v[0][1]) % 128 + 128) % 128);
+	modInverse[1][0] = ((-(v[1][0]) % 128 + 128) % 128);
+	modInverse[1][1] = ((v[0][0]) % 128 + 128) % 128;
 
 	// Caculate determinant of key
 	int determinant = getDeterminant(v);
 
-	cout << "Determinant: " << determinant << endl;
-
 	// Calculate inverse key matrix
 	float f = 1 / (static_cast<float>(determinant));
-
-	cout << "F: 0 " << f << endl;
-
 	int detInverse = static_cast<int>(determinant * f);
-
-	cout << "Det Inverse: " << detInverse << endl;
-
 	int i = 0;
 
-	while ((determinant * i) % 26 != detInverse) {
-		cout << "i: " << i << endl;
+	while ((determinant * i) % 128 != detInverse) {
 		i++;
 	}
 
-	cout << "final i: " << i << endl;
-
-	inverseKey[0][0] = (((modInverse[0][0] * i) % 26 + 26) % 26);
-	inverseKey[0][1] = (((modInverse[0][1] * i) % 26 + 26) % 26);
-	inverseKey[1][0] = (((modInverse[1][0] * i) % 26 + 26) % 26);
-	inverseKey[1][1] = (((modInverse[1][1] * i) % 26 + 26) % 26);
+	inverseKey[0][0] = (((modInverse[0][0] * i) % 128 + 128) % 128);
+	inverseKey[0][1] = (((modInverse[0][1] * i) % 128 + 128) % 128);
+	inverseKey[1][0] = (((modInverse[1][0] * i) % 128 + 128) % 128);
+	inverseKey[1][1] = (((modInverse[1][1] * i) % 128 + 128) % 128);
 
 	return inverseKey;
 }
@@ -226,42 +205,31 @@ string HillCypher::encryptPlainText(vector< vector<int> > key, string pt)
 	{
 		char ch = pt[i];
 
-		// If char is alphanumeric...
-		// if (isalpha(ch)) {
+		int ich = ch;
 
-		int ich = ch; 
-		cout << ch << " > " << ich << endl;
+		// Push char to temporary vector
+		// ** converts to ASCII char **
+		vec.push_back(ich);
 
-			// Push char to temporary vector
-			// ** converts to number, e.g. A=0, Z=25 **
-			
-			// Not using setNumber so I can convert to ASCII
-			vec.push_back(setNumber(ch));
+		// If vector is 2 chars long, encrypt
+		if (vec.size() % 2 == 0) {
 
-			// If vector is 2 chars long, encrypt
-			if (vec.size() % 2 == 0) {
+			// Multiply 2x2 key with 2x1 char matrix
+			// and get modulo of result
+			encryption = getMatrixModulo(matrixMultiply(key, vec));
 
-				// Multiply 2x2 key with 2x1 char matrix
-				// and get modulo of result
-				encryption = getMatrixModulo(matrixMultiply(key, vec));
+			// Swap encrypted integer with corresponding
+			// letter in the alphabet
+			char c0 = encryption[0];
+			char c1 = encryption[1];
 
-				// Swap encrypted integer with corresponding
-				// letter in the alphabet
-				char swapped0 = setLetter(encryption[0]);
-				char swapped1 = setLetter(encryption[1]);
+			// Add chars to cyphertext string
+			cyphertext += c0;
+			cyphertext += c1;
 
-				// Add chars to cyphertext string
-				cyphertext += swapped0;
-				cyphertext += swapped1;
-
-				// Empty the vector
-				vec.clear();
-			}
-		//}
-		// If not alphanumeric, add to cyphertext string
-		//else {
-		//	cyphertext += ch;
-		//}
+			// Empty the vector
+			vec.clear();
+		}
 	}
 	return cyphertext;
 }
@@ -271,7 +239,7 @@ string HillCypher::encryptPlainText(vector< vector<int> > key, string pt)
 string HillCypher::decryptCypherText(vector< vector<int> > ik, string ct)
 {
 	string plaintext;
-	vector<int> encryption;
+	vector<int> decryption;
 	vector<int> vec;
 
 	int len = ct.length();
@@ -291,42 +259,30 @@ string HillCypher::decryptCypherText(vector< vector<int> > ik, string ct)
 	{
 		char ch = ct[i];
 
-		// If char is alphanumeric...
-		// if (isalpha(ch)) {
-
 		int ich = ch;
-		cout << ch << " > " << ich << endl;
 
 		// Push char to temporary vector
-		// ** converts to number, e.g. A=0, Z=25 **
-
-		// Not using setNumber so I can convert to ASCII
-		vec.push_back(setNumber(ch));
+		// ** converts to ASCII char **
+		vec.push_back(ich);
 
 		// If vector is 2 chars long, encrypt
 		if (vec.size() % 2 == 0) {
 
 			// Multiply 2x2 inverse key with 2x1 char matrix
 			// and get modulo of result
-			encryption = getMatrixModulo(matrixMultiply(ik, vec));
 
-			// Swap encrypted integer with corresponding
-			// letter in the alphabet
-			char swapped0 = setLetter(encryption[0]);
-			char swapped1 = setLetter(encryption[1]);
+			decryption = getMatrixModulo(matrixMultiply(ik, vec));
+
+			char c0 = decryption[0];
+			char c1 = decryption[1];
 
 			// Add chars to cyphertext string
-			plaintext += swapped0;
-			plaintext += swapped1;
+			plaintext += c0;
+			plaintext += c1;
 
 			// Empty the vector
 			vec.clear();
 		}
-		//}
-		// If not alphanumeric, add to cyphertext string
-		//else {
-		//	cyphertext += ch;
-		//}
 	}
 	return plaintext;
 }
@@ -342,38 +298,27 @@ int main()
 	// Create a random 2x2 key matrix
 	vector< vector<int> > key = hillCypherObj.setKey();
 
-	//vector< vector<int> > key(2, vector<int>(2));
-
-	//key[0][0] = 3;
-	//key[0][1] = 3;
-	//key[1][0] = 2;
-	//key[1][1] = 5;
-
-	cout << "Key 2 :\n";
+	cout << "Key :\n";
 	cout << "( " << key[0][0] << " " << key[0][1] << " )\n";
 	cout << "( " << key[1][0] << " " << key[1][1] << " )\n\n";
 
 	// Get the user's input (plaintext)
-	string plaintext = hillCypherObj.getInput();
+	string input = hillCypherObj.getInput();
 
 	// Encrypt the plaintext
-	string cyphertext = hillCypherObj.encryptPlainText(key, plaintext);
-
-	// Print the cyphertext to console
-	cout << "Cypher text:\n" << cyphertext << endl;
+	string cyphertext = hillCypherObj.encryptPlainText(key, input);
 
 	// Invert key
 	vector< vector<int> > inverseKey(2, vector<int>(2));
 	inverseKey = hillCypherObj.setInverseKey(key);
 
-	cout << "main 0.0: " << inverseKey[0][0] << endl;
-	cout << "main 0.1: " << inverseKey[0][1] << endl;
-	cout << "main 1.0: " << inverseKey[1][0] << endl;
-	cout << "main 1.1: " << inverseKey[1][1] << endl;
-
 	// Decrypt the cyphertext
 	string plain = hillCypherObj.decryptCypherText(inverseKey, cyphertext);
 
 	// Print the cyphertext to console
-	cout << "Plain text:\n" << plain << endl;
+	cout << "Cypher Text   :   " << cyphertext << endl;
+	// Print the cyphertext to console
+	cout << "Decoded Text  :   " << plain << endl;
+	// Print the cyphertext to console
+	cout << "User's Input  :   " << input << endl;
 }
