@@ -12,8 +12,6 @@ using namespace std;
 class HillCypher
 {
 public:
-	char setLetter(int);
-	int setNumber(char);
 	int getDeterminant(vector < vector<int> >);
 	string getInput();
 	vector< vector<int> > setKey();
@@ -25,7 +23,6 @@ public:
 	bool checkMatrixIsInvertible(vector< vector<int> >);
 
 private:
-	char letter;
 	int determinant;
 	string input;
 	string cyphertext;
@@ -35,42 +32,6 @@ private:
 	vector< vector<int> > key;
 	vector< vector<int> > inverseKey;
 };
-
-// Swaps num to corresponding letter in alphabet (e.g. 0=A, 25=Z)
-char HillCypher::setLetter(int n)
-{
-	char alpha[128] = { 'a','b','c','d','e','f','g','h','i',
-				'j','k','l','m','n','o','p','q','r',
-				's','t','u','v','w','x','y','z' };
-	int y;
-	char letter;
-	for (y = 0; y < 128; y++)
-	{
-		if (n == y)
-		{
-			letter = alpha[y];
-		}
-	}
-	return letter;
-}
-
-// Swaps letter in alphabet to corresponding number (e.g. A=0, Z=25)
-int HillCypher::setNumber(char c)
-{
-	char alpha[128] = { 'a','b','c','d','e','f','g','h','i',
-				'j','k','l','m','n','o','p','q','r',
-				's','t','u','v','w','x','y','z' };
-	int y;
-	int number;
-	for (y = 0; y < 128; y++)
-	{
-		if (c == alpha[y])
-		{
-			number = y;
-		}
-	}
-	return number;
-}
 
 // Matrix modulo operation
 vector<int> HillCypher::getMatrixModulo(vector<int> v)
@@ -85,7 +46,7 @@ vector<int> HillCypher::getMatrixModulo(vector<int> v)
 string HillCypher::getInput()
 {
 	string input;
-	cout << "Enter a message: ";
+	cout << "Enter Message   =>     ";
 	getline(cin, input);
 	cout << endl;
 	return input;
@@ -305,20 +266,27 @@ int main()
 	// Get the user's input (plaintext)
 	string input = hillCypherObj.getInput();
 
+	cout << "Press Enter to begin the encryption...\n";
+	cin.get();
+
 	// Encrypt the plaintext
 	string cyphertext = hillCypherObj.encryptPlainText(key, input);
+
+	// Print the cyphertext to console
+	cout << "Encryption      =>     " << cyphertext << endl << endl;
 
 	// Invert key
 	vector< vector<int> > inverseKey(2, vector<int>(2));
 	inverseKey = hillCypherObj.setInverseKey(key);
 
+	cout << "Press Enter to begin the decryption...\n";
+	cin.get();
+
 	// Decrypt the cyphertext
 	string plain = hillCypherObj.decryptCypherText(inverseKey, cyphertext);
 
 	// Print the cyphertext to console
-	cout << "Cypher Text   :   " << cyphertext << endl;
+	cout << "Decryption      =>     " << plain << endl;
 	// Print the cyphertext to console
-	cout << "Decoded Text  :   " << plain << endl;
-	// Print the cyphertext to console
-	cout << "User's Input  :   " << input << endl;
+	cout << "User's Input    =>     " << input << endl;
 }
