@@ -1,14 +1,15 @@
-// Key Class
+// Singleton reference:
+// youtube.com/watch?v=_USRzpb7dLg
 #include "Key.h"
 
 // Initially sets the ptr to the Key object to NULL
 Key* Key::k = nullptr;
 
-/*
- *		Key() constructor
+
+/*		Key() constructor
  *
  *		Singleton design pattern
- *		When getInstance() is called it constructs key vector
+ *		When getInstance() is called it constructs key vector by calling setKey
  */
 Key::Key()
 	: key(setKey())
@@ -16,8 +17,7 @@ Key::Key()
 
 }
 
-/*
- *		Key() destructor
+/*		Key() destructor
  *
  *		Singleton design pattern
  *		When the program ends the single instance of Key is deleted
@@ -123,10 +123,9 @@ vector< vector<int> > Key::setInverseKey(vector < vector<int> > v)
 	return inverseKey;
 }
 
-
 /*		checkMatrixIsInvertible func
  *
- *		 Checks whether a matrix is invertible or not
+ *		Checks whether a matrix is invertible or not
  */
 bool Key::checkMatrixIsInvertible(vector< vector<int> > v)
 {

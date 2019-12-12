@@ -1,4 +1,3 @@
-// Hill Cypher Class
 #include "HillCypher.h"
 
 /*		getInput func
@@ -14,8 +13,8 @@ string HillCypher::getInput()
 	return input;
 }
 
-/*
- *		getMatrixModulo func
+
+/*		getMatrixModulo func
  *
  *		Gets the modulo of each value in a 2x1 matrix
  *		Gets modulo 128 because cypher encrypts all chars into corresponding ASCII values

@@ -1,6 +1,7 @@
 #include "HillCypher.h"
 #include "Key.h"
 #include <iostream>
+#include <locale>
 
 using namespace std;
 
@@ -11,10 +12,10 @@ int main()
 
 	// Create new Hill Cypher object "hillCypherObject"
 	HillCypher hillCypherObject;
-	vector< vector<int> > key = Key::getInstance()->setKey();
 
-	// Create a random 2x2 key matrix
-	// vector< vector<int> > key = keyObject.setKey();
+	// Call Key Singleton getInstance and
+	// create a random 2x2 key matrix
+	vector< vector<int> > key = Key::getInstance()->setKey();
 
 	cout << "Random Key :\n";
 	cout << "( " << key[0][0] << " " << key[0][1] << " )\n";
@@ -31,7 +32,7 @@ int main()
 
 	// Print the cyphertext to console
 	cout << "Encryption      =>     " << cyphertext << endl << endl;
-
+		
 	// Invert key
 	vector< vector<int> > inverseKey(2, vector<int>(2));
 	inverseKey = Key::getInstance()->setInverseKey(key);
