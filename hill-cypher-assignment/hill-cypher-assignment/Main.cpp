@@ -11,12 +11,12 @@ int main()
 
 	// Create new Hill Cypher object "hillCypherObject"
 	HillCypher hillCypherObject;
-	Key keyObject;
+	vector< vector<int> > key = Key::getInstance()->setKey();
 
 	// Create a random 2x2 key matrix
-	vector< vector<int> > key = keyObject.setKey();
+	// vector< vector<int> > key = keyObject.setKey();
 
-	cout << "Key :\n";
+	cout << "Random Key :\n";
 	cout << "( " << key[0][0] << " " << key[0][1] << " )\n";
 	cout << "( " << key[1][0] << " " << key[1][1] << " )\n\n";
 
@@ -34,7 +34,7 @@ int main()
 
 	// Invert key
 	vector< vector<int> > inverseKey(2, vector<int>(2));
-	inverseKey = keyObject.setInverseKey(key);
+	inverseKey = Key::getInstance()->setInverseKey(key);
 
 	cout << "Press Enter to begin the decryption...\n";
 	cin.get();
@@ -46,4 +46,6 @@ int main()
 	cout << "Decryption      =>     " << plain << endl;
 	// Print the cyphertext to console
 	cout << "User's Input    =>     " << input << endl;
+	
+	return 0;
 }

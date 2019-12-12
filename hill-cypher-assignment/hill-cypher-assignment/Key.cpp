@@ -1,6 +1,52 @@
 // Key Class
 #include "Key.h"
 
+// Initially sets the ptr to the Key object to NULL
+Key* Key::k = nullptr;
+
+/*
+ *		Key() constructor
+ *
+ *		Singleton design pattern
+ *		When getInstance() is called it constructs key vector
+ */
+Key::Key()
+	: key(setKey())
+{
+
+}
+
+/*
+ *		Key() destructor
+ *
+ *		Singleton design pattern
+ *		When the program ends the single instance of Key is deleted
+ *		And ptr is set to NULL
+ */
+Key::~Key()
+{
+	if (k)
+	{
+		delete k;
+		k = nullptr;
+	}
+}
+
+/*
+ *		getInstance func
+ *
+ *		Singleton design pattern
+ *		Returns the only object / instance of the Key class
+ */
+Key* Key::getInstance()
+{
+	if (!k)
+	{
+		k = new Key;
+	}
+	return k;
+}
+
 /*
  *		setKey func
  *
