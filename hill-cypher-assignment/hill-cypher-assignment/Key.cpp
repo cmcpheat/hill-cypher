@@ -32,8 +32,7 @@ Key::~Key()
 	}
 }
 
-/*
- *		getInstance func
+/*		getInstance func
  *
  *		Singleton design pattern
  *		Returns the only object / instance of the Key class
@@ -47,8 +46,7 @@ Key* Key::getInstance()
 	return k;
 }
 
-/*
- *		setKey func
+/*		setKey func
  *
  *		Generates random 2x2 key matrix
  */
@@ -80,8 +78,7 @@ vector< vector<int> > Key::setKey()
 	return key;
 }
 
-/*
- *		getDeterminant func
+/*		getDeterminant func
  *
  *		Gets the determinant of a 2x2 matrix
  */
@@ -91,8 +88,7 @@ int Key::getDeterminant(vector< vector<int> > v)
 	return determinant;
 }
 
-/*
- *		setInverseKey func
+/*		setInverseKey func
  *
  *		Inverts the key matrix for decryption
  */
@@ -127,8 +123,8 @@ vector< vector<int> > Key::setInverseKey(vector < vector<int> > v)
 	return inverseKey;
 }
 
-/*
- *		checkMatrixIsInvertible func
+
+/*		checkMatrixIsInvertible func
  *
  *		 Checks whether a matrix is invertible or not
  */

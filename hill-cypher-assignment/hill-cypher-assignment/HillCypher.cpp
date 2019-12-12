@@ -1,8 +1,7 @@
 // Hill Cypher Class
 #include "HillCypher.h"
 
-/*
- *		getInput func
+/*		getInput func
  *
  *		Gets the input from the user via the console
  */
@@ -29,8 +28,7 @@ vector<int> HillCypher::getMatrixModulo(vector<int> v)
 	return modulo;
 }
 
-/*
- *		matrixMultiply func
+/*		matrixMultiply func
  *
  *		Multiplies the 2x2 key matrix by each 2x1 character matrix
  */
@@ -42,8 +40,7 @@ vector<int> HillCypher::matrixMultiply(vector< vector<int> > k, vector<int> c)
 	return multiplication;
 }
 
-/*
- *		 encryptPlainText func
+/*		 encryptPlainText func
  * 
  *		Encrypts the plain text and returns cypher text
  *		If plain text length is odd number, add a space to the end
@@ -109,8 +106,7 @@ string HillCypher::encryptPlainText(vector< vector<int> > key, string pt)
 	return cyphertext;
 }
 
-/*
- *		decryptCypherText func
+/*		decryptCypherText func
  *
  *		Decrypts the cypher text and returns plain text
  *		If cypher text length is odd number, add a space to the end (this should never happen)
