@@ -151,7 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hill-cypher-assignment.cpp" />
+    <ClCompile Include="HillCypher.cpp" />
+    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Key.h" />
+    <ClInclude Include="HillCypher.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

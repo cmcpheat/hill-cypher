@@ -15,8 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hill-cypher-assignment.cpp">
+    <ClCompile Include="HillCypher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HillCypher.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

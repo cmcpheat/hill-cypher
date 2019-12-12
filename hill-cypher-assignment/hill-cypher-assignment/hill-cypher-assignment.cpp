@@ -4,34 +4,8 @@
 #include <locale>
 #include <vector>
 
-// decryption video - https ://www.youtube.com/watch?v=kfmNeskzs2o
-
 using namespace std;
 
-
-class HillCypher
-{
-public:
-	int getDeterminant(vector < vector<int> >);
-	string getInput();
-	vector< vector<int> > setKey();
-	vector< vector<int> > setInverseKey(vector< vector<int> >);
-	vector<int> getMatrixModulo(vector<int>);
-	vector<int> matrixMultiply(vector< vector<int> >, vector<int>);
-	string encryptPlainText(vector< vector<int> >, string);
-	string decryptCypherText(vector< vector<int> >, string);
-	bool checkMatrixIsInvertible(vector< vector<int> >);
-
-private:
-	int determinant;
-	string input;
-	string cyphertext;
-	string plaintext;
-	vector<int> modulo;
-	vector<int> multiplication;
-	vector< vector<int> > key;
-	vector< vector<int> > inverseKey;
-};
 
 // Matrix modulo operation
 vector<int> HillCypher::getMatrixModulo(vector<int> v)
